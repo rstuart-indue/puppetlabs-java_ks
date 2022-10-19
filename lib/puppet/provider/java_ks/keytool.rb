@@ -388,13 +388,14 @@ Puppet::Type.type(:java_ks).provide(:keytool) do
     # for previously empty files, restore the umask, mode, owner and group.
     # The funky double-take check is because on Suse defined? doesn't seem
     # to behave quite the same as on Debian, RedHat
-    if target and (defined? stat and stat) # rubocop:disable Style/AndOr : Changing 'and' to '&&' causes test failures.
-      File.umask(umask)
-      # Need to change group ownership before mode to prevent making the file
-      # accessible to the wrong group.
-      File.chown(stat.uid, stat.gid, target)
-      File.chmod(stat.mode, target)
-    end
+    # unclear why this code is necessary and is failing on RHEL7 / openjdk 8.
+    #if target and (defined? stat and stat) # rubocop:disable Style/AndOr : Changing 'and' to '&&' causes test failures.
+    #  File.umask(umask)
+    #  # Need to change group ownership before mode to prevent making the file
+    #  # accessible to the wrong group.
+    #  File.(stat.uid, stat.gid, target)
+    #  File.chmod(stat.mode, target)
+    #end
 
     output
   end
