@@ -389,6 +389,7 @@ Puppet::Type.type(:java_ks).provide(:keytool) do
     # The funky double-take check is because on Suse defined? doesn't seem
     # to behave quite the same as on Debian, RedHat
     # unclear why this code is necessary and is failing on RHEL7 / openjdk 8.
+    Puppet.info("File target is: #{target}")
     #if target and (defined? stat and stat) # rubocop:disable Style/AndOr : Changing 'and' to '&&' causes test failures.
     #  File.umask(umask)
     #  # Need to change group ownership before mode to prevent making the file
